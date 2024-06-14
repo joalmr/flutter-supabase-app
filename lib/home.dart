@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -54,8 +55,7 @@ class _HomePageState extends State<HomePage> {
   Future<void> signInWithGoogle() async {
     try {
       /// Web Client ID that you registered with Google Cloud.
-      const webClientId =
-          '772941858761-4kfdq55itfltau71tjrpr6jo4p050anm.apps.googleusercontent.com';
+      final webClientId = dotenv.env['WEB_CLIENT']!;
 
       final GoogleSignIn googleSignIn = GoogleSignIn(
         serverClientId: webClientId,
