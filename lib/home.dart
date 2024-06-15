@@ -22,9 +22,15 @@ class _HomePageState extends State<HomePage> {
     super.initState();
 
     supabase.auth.onAuthStateChange.listen((data) {
-      log(data.session?.user.id ?? 'Not signed in');
+      if (data.session != null) {
+        log(
+          data.session!.user.toJson().toString(),
+          name: 'oAuth',
+        );
+      }
+
       setState(() {
-        _userId = data.session?.user.id;
+        _userId = data.session?.user.userMetadata?['full_name'];
       });
     });
   }
@@ -59,6 +65,7 @@ class _HomePageState extends State<HomePage> {
 
       final GoogleSignIn googleSignIn = GoogleSignIn(
         serverClientId: webClientId,
+        scopes: ['email', 'profile'],
       );
 
       final googleUser = await googleSignIn.signIn();
